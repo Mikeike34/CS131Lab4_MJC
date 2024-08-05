@@ -1,39 +1,39 @@
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
 public class FileProcessor {
 	
 	private String fileName;
 	private int stringLength;
-	private stringList ArrayList<String>;
+	private ArrayList<String> stringList = new ArrayList<String>();
 	private Scanner input;
 	
 	
 	
 	
 	public FileProcessor(String fileName, int stringLength) {
-		try {
-			FileReader fr = new FileReader(fileName);
-			BufferedReader reader = new BufferedReader(fr);
-			reader.close();
-		}//end try
-		catch(StringTooLongException e){
-			System.out.println(e.getMessage());
-		}//end catch
-		catch(FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}//end catch
-		
-			
-	}//end empty-argument constructor
-	
-	public int getArrayListSize() {
-		int size = ArrayList.size();
-		return size;
-	}//end getArrayListSize
+		setFileName(fileName);
+		setStringLength(stringLength);
+				
+	}//end preferred constructor
 	
 	public void processFile() {
-		
-		
+		try {
+			input = new Scanner(new File(fileName));
+			String line;
+			while(input.hasNext()) {
+				line = input.nextLine();
+				if(line.length()<=stringLength) {
+					stringList.add(line);
+				}//end if
+				else {
+					System.out.println("String is too long: "+line);
+				}//end else
+			}//end while
+			input.close();
+		}//end try
+		catch(FileNotFoundException e){
+			System.out.println("File not found: "+e.getMessage());
+		}//end catch
 	}//end processFile
 
 	public String getFileName() {
@@ -56,6 +56,15 @@ public class FileProcessor {
 		this.stringLength = stringLength;
 		}//end else
 	}//end setStringLength
+	
+	public int getArrayListSize() {
+		return stringList.size();
+	}//end getArrayListSize
+
+	@Override
+	public String toString() {
+		return "FileProcessor [fileName=" + fileName + ", stringLength=" + stringLength + "]";
+	}//end toString
 	
 	
 
