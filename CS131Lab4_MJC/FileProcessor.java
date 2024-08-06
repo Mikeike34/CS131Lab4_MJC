@@ -16,7 +16,7 @@ public class FileProcessor {
 				
 	}//end preferred constructor
 	
-	public void processFile() {
+	public void processFile() throws StringTooLongException {
 		try {
 			input = new Scanner(new File(fileName));
 			String line;
@@ -26,7 +26,7 @@ public class FileProcessor {
 					stringList.add(line);
 				}//end if
 				else {
-					System.out.println("String is too long: "+line);
+					throw new StringTooLongException("String is too long: "+line);
 				}//end else
 			}//end while
 			input.close();
@@ -34,6 +34,11 @@ public class FileProcessor {
 		catch(FileNotFoundException e){
 			System.out.println("File not found: "+e.getMessage());
 		}//end catch
+		finally {
+			if(input != null) {
+				input.close();
+			}//end if
+		}//end finally
 	}//end processFile
 
 	public String getFileName() {
